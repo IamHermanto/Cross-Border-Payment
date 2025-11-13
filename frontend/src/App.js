@@ -6,27 +6,27 @@ import TransactionFlow from './TransactionFlow';
 import LandedCostScenarios from './LandedCostScenarios';
 
 function App() {
-  const [activeTab, setActiveTab] = useState('inspector');
+  const [activeTab, setActiveTab] = useState('calculator');
 
   return (
     <div className="App">
-      <h1>Zonos Landed Cost API Inspector</h1>
+      <h1>Zonos Landed Cost Calculator & API Inspector</h1>
       <p className="subtitle">
-        Debug, test, and understand Zonos landed cost calculations for cross-border commerce
+        Calculate total delivered costs including duties, taxes, and shipping for cross-border commerce
       </p>
 
       <div className="tabs-nav">
-        <button 
-          className={`tab-button ${activeTab === 'inspector' ? 'active' : ''}`}
-          onClick={() => setActiveTab('inspector')}
-        >
-          Mutation Inspector
-        </button>
         <button 
           className={`tab-button ${activeTab === 'calculator' ? 'active' : ''}`}
           onClick={() => setActiveTab('calculator')}
         >
           Landed Cost Calculator
+        </button>
+        <button 
+          className={`tab-button ${activeTab === 'inspector' ? 'active' : ''}`}
+          onClick={() => setActiveTab('inspector')}
+        >
+          API Inspector
         </button>
         <button 
           className={`tab-button ${activeTab === 'scenarios' ? 'active' : ''}`}
@@ -42,8 +42,8 @@ function App() {
         </button>
       </div>
 
-      {activeTab === 'inspector' && <MutationInspector />}
       {activeTab === 'calculator' && <TransactionFlow />}
+      {activeTab === 'inspector' && <MutationInspector />}
       {activeTab === 'scenarios' && <LandedCostScenarios />}
       {activeTab === 'errors' && <ErrorScenarios />}
     </div>
