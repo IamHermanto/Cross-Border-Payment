@@ -1,5 +1,7 @@
 const express = require('express');
 const cors = require('cors');
+const { graphqlHTTP } = require('express-graphql');
+const schema = require('./schema');
 
 const app = express();
 const PORT = 5000;
@@ -26,7 +28,6 @@ app.post('/api/inspect', (req, res) => {
     const issues = [];
     const warnings = [];
     
-    // Required field checks
     if (!parsed.amount) {
       issues.push({ field: 'amount', issue: 'Missing required field', severity: 'error' });
     } else if (typeof parsed.amount !== 'number') {
@@ -47,7 +48,6 @@ app.post('/api/inspect', (req, res) => {
       warnings.push({ field: 'destination_country', issue: `Country code '${parsed.destination_country}' may not be supported`, severity: 'warning' });
     }
     
-    // Optional field warnings
     if (!parsed.customer_email) {
       warnings.push({ field: 'customer_email', issue: 'Recommended for transaction tracking', severity: 'warning' });
     }
@@ -72,6 +72,13 @@ app.post('/api/inspect', (req, res) => {
   }
 });
 
+// GraphQL endpoint
+app.use('/graphql', graphqlHTTP({
+  schema: schema,
+  graphiql: true
+}));
+
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
+  console.log(`GraphQL endpoint: http://localhost:${PORT}/graphql`);
 });

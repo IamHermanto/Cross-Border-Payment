@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import './App.css';
+import ErrorScenarios from './ErrorScenarios';
+import TransactionFlow from './TransactionFlow';
 
 function App() {
   const [apiRequest, setApiRequest] = useState('');
@@ -68,6 +70,9 @@ function App() {
           </div>
         )}
       </div>
+
+      <TransactionFlow />
+      <ErrorScenarios />
     </div>
   );
 }
