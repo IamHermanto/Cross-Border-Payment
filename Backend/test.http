@@ -1,0 +1,6 @@
+POST http://localhost:5000/api/inspect
+Content-Type: application/json
+
+{
+  "apiRequest": "{\"amount\": 100, \"currency\": \"USD\", \"destination_country\": \"CA\"}"
+}
