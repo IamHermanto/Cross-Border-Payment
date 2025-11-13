@@ -189,3 +189,9 @@ Built by Ale - Game Developer transitioning to Customer Support Engineering with
 ---
 
 **Note:** Duty rates and exchange rates in this tool are approximations for demonstration purposes. Production implementations should use official customs databases and real-time exchange rate APIs.
+
+## Live Demo
+
+- **Application:** https://cross-border-payment-one.vercel.app
+- **GraphQL Playground:** https://cross-border-payment.onrender.com/graphql
+- **Source Code:** https://github.com/IamHermanto/Cross-Border-Payment
