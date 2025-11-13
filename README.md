@@ -180,12 +180,6 @@ Built by Ale - Game Developer transitioning to Customer Support Engineering with
 
 **Why support engineering?** I've discovered I'm most energized when solving technical problems for people, not just building features. Support engineering combines my technical skills with direct customer impact.
 
-## Contact
-
-- GitHub: [your-github-username]
-- LinkedIn: [your-linkedin]
-- Email: [your-email]
-
 ---
 
 **Note:** Duty rates and exchange rates in this tool are approximations for demonstration purposes. Production implementations should use official customs databases and real-time exchange rate APIs.
