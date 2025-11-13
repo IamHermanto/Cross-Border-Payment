@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import './App.css';
 import ErrorScenarios from './ErrorScenarios';
 import TransactionFlow from './TransactionFlow';
+import API_URL from './config';
 
 function App() {
   const [apiRequest, setApiRequest] = useState('');
@@ -9,7 +10,7 @@ function App() {
 
   const handleInspect = async () => {
     try {
-      const response = await fetch('http://localhost:5000/api/inspect', {
+      const response = await fetch(`${API_URL}/api/inspect`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ apiRequest })
