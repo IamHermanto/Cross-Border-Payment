@@ -4,6 +4,7 @@ import MutationInspector from './MutationInspector';
 import ErrorScenarios from './ErrorScenarios';
 import TransactionFlow from './TransactionFlow';
 import LandedCostScenarios from './LandedCostScenarios';
+import Troubleshooting from './Troubleshooting';
 
 function App() {
   const [activeTab, setActiveTab] = useState('calculator');
@@ -29,6 +30,12 @@ function App() {
           API Inspector
         </button>
         <button 
+          className={`tab-button ${activeTab === 'troubleshooting' ? 'active' : ''}`}
+          onClick={() => setActiveTab('troubleshooting')}
+        >
+          Troubleshooting
+        </button>
+        <button 
           className={`tab-button ${activeTab === 'scenarios' ? 'active' : ''}`}
           onClick={() => setActiveTab('scenarios')}
         >
@@ -44,6 +51,7 @@ function App() {
 
       {activeTab === 'calculator' && <TransactionFlow />}
       {activeTab === 'inspector' && <MutationInspector />}
+      {activeTab === 'troubleshooting' && <Troubleshooting />}
       {activeTab === 'scenarios' && <LandedCostScenarios />}
       {activeTab === 'errors' && <ErrorScenarios />}
     </div>
