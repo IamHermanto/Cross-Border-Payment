@@ -16,10 +16,88 @@ const validateCurrency = (currency) => {
 };
 
 const validateCountry = (country) => {
-  const validCountries = ['US', 'CA', 'GB', 'AU', 'DE', 'FR', 'JP', 'CN', 'MX'];
+  const validCountries = ['US', 'CA', 'GB', 'AU', 'DE', 'JP', 'CN', 'MX'];
   return validCountries.includes(country?.toUpperCase());
 };
 
+const validateHsCode = (hsCode) => {
+  if (!hsCode) return false;
+  // HS codes are typically 6-10 digits, may include periods
+  const hsPattern = /^\d{4,6}(\.\d{2})?$/;
+  return hsPattern.test(hsCode);
+};
+
+// Landed Cost validation endpoint
+app.post('/api/validate-landed-cost', (req, res) => {
+  const { mutation } = req.body;
+  
+  try {
+    const issues = [];
+    const warnings = [];
+    
+    // This is a simplified validation - in production, you'd parse GraphQL properly
+    const mutationText = mutation.toLowerCase();
+    
+    // Check for required fields
+    if (!mutationText.includes('currencycode')) {
+      issues.push({ 
+        field: 'currencyCode', 
+        issue: 'Missing required field', 
+        severity: 'error',
+        line: 'N/A'
+      });
+    }
+    
+    if (!mutationText.includes('destinationcountry')) {
+      issues.push({ 
+        field: 'destinationCountry', 
+        issue: 'Missing required field', 
+        severity: 'error',
+        line: 'N/A'
+      });
+    }
+    
+    if (!mutationText.includes('items')) {
+      issues.push({ 
+        field: 'items', 
+        issue: 'Missing required items array', 
+        severity: 'error',
+        line: 'N/A'
+      });
+    }
+    
+    // Check for common issues
+    if (!mutationText.includes('hscode')) {
+      warnings.push({ 
+        field: 'hsCode', 
+        issue: 'HS code not specified - may result in incorrect duty calculation', 
+        severity: 'warning'
+      });
+    }
+    
+    if (!mutationText.includes('shippingcost')) {
+      warnings.push({ 
+        field: 'shippingCost', 
+        issue: 'Shipping cost not included - some countries tax shipping', 
+        severity: 'warning'
+      });
+    }
+    
+    res.json({
+      valid: issues.length === 0,
+      issues: issues,
+      warnings: warnings
+    });
+  } catch (error) {
+    res.json({
+      valid: false,
+      issues: [{ field: 'Mutation', issue: 'Invalid GraphQL syntax: ' + error.message, severity: 'error' }],
+      warnings: []
+    });
+  }
+});
+
+// Legacy inspect endpoint (keeping for backwards compatibility)
 app.post('/api/inspect', (req, res) => {
   const { apiRequest } = req.body;
   
@@ -81,4 +159,5 @@ app.use('/graphql', graphqlHTTP({
 app.listen(PORT, '0.0.0.0', () => {
   console.log(`Server running on port ${PORT}`);
   console.log(`GraphQL endpoint: http://localhost:${PORT}/graphql`);
+  console.log(`GraphiQL interface available at: http://localhost:${PORT}/graphql`);
 });
